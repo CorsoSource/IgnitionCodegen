@@ -11,15 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
-      - name: Echo ref
-        run: echo 
+
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
-          distribution: 'temurin'
-      
+          java-version: "17"
+          distribution: "temurin"
+
       - name: Package
         run: mvn package
 
@@ -30,5 +28,5 @@ jobs:
         with:
           draft: true
           files: |
-            target/ignition-codegen-openapi-generator-1.0.0.jar
-            target/ignition-codegen-openapi-generator-1.0.0-jar-with-dependencies.jar
+            "target/ignition-codegen-openapi-generator-{{ github.ref_name }}.jar"
+            "target/ignition-codegen-openapi-generator-{{ github.ref_name }}-jar-with-dependencies.jar"
