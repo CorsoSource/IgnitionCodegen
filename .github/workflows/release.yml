@@ -1,3 +1,9 @@
+# This workflow packages the application and uploads the light .jar and fat .jar as release assets.
+# It triggers on the creation of any tag. The release will have the same name as the tag and be marked as draft.
+# The jar files must be named as follows:
+#   ignition-codegen-openapi-generator-${{ github.ref_name }}.jar
+#   target/ignition-codegen-openapi-generator-${{ github.ref_name }}-jar-with-dependencies.jar
+# github.ref_name will be the name of the tag (e.g. 1.0.0)
 name: Create Release
 
 on:
@@ -6,7 +12,7 @@ on:
       - "*"
 
 jobs:
-  package:
+  create-release:
     name: Package and Release
     runs-on: ubuntu-latest
     steps:
