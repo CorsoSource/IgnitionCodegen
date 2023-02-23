@@ -1,6 +1,9 @@
 package com.corsosystems.codegen;
 
 import org.junit.Test;
+import org.openapitools.codegen.ClientOptInput;
+import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.config.CodegenConfigurator;
 
 /***
  * This test allows you to easily launch your code generation software under a debugger.
@@ -20,14 +23,13 @@ public class IgnitionCodegenTest {
   public void launchCodeGenerator() {
     // to understand how the 'openapi-generator-cli' module is using 'CodegenConfigurator', have a look at the 'Generate' class:
     // https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-cli/src/main/java/org/openapitools/codegen/cmd/Generate.java
-/*    final CodegenConfigurator configurator = new CodegenConfigurator()
+    final CodegenConfigurator configurator = new CodegenConfigurator()
               .setGeneratorName("ignition-codegen") // use this codegen library
-              .setInputSpec("../../../modules/openapi-generator/src/test/resources/2_0/petstore.yaml") // sample OpenAPI file
-              // .setInputSpec("https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml") // or from the server
+              .setInputSpec("https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml") // or from the server
               .setOutputDir("out/ignition-codegen"); // output directory
 
     final ClientOptInput clientOptInput = configurator.toClientOptInput();
     DefaultGenerator generator = new DefaultGenerator();
-    generator.opts(clientOptInput).generate();*/
+    generator.opts(clientOptInput).generate();
   }
 }
