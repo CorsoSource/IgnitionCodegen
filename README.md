@@ -10,36 +10,10 @@ Similar to what interfaces have done for lower-level programming, OpenAPI remove
 
 Check out [OpenAPI-Spec](https://github.com/OAI/OpenAPI-Specification) for additional information about the OpenAPI project, including additional libraries with support for other languages and more.
 
-## Project structure
-
-```
-.
-|- README.md    // this file
-|- pom.xml      // build script
-|-- src
-|--- main
-|---- java
-|----- com.corsosystems.codegen.IgnitionCodegen.java // generator implementation
-|---- resources
-|----- ignition-codegen // template files
-|----- META-INF
-|------ services
-|------- org.openapitools.codegen.CodegenConfig
-```
-
-## Running the project
-Clone the repo or download the source and run the Maven package command in the root of the project.
-```
-mvn package
-```
-
-Two jar files will be produced in `/target`. 
-- `ignition-codegen-openapi-generator-x.x.x.jar`
-  * This contains only the classes defined in the project.
-- `ignition-codegen-openapi-generator-x.x.x-jar-with-dependencies.jar`
-  * This contains all dependencies (including the Kotlin runtime). This is most likely the one you want.
-
-You can now use `ignition-codegen` with [OpenAPI Generator](https://openapi-generator.tech). Be sure to [download the jar](https://github.com/OpenAPITools/openapi-generator#13---download-jar).
+## Generating a client
+- [Build the project](#build-the-project) or download the ignition-codegen-openapi-generator-jar-with-dependencies from [releases](https://github.com/CorsoSource/IgnitionCodegen/releases)
+- Download the OpenAPI Generator jar from [OpenAPITools](https://github.com/OpenAPITools/openapi-generator#13---download-jar)
+- Invoke the OpenAPI Generator:
 
 For mac/linux:
 ```
@@ -48,7 +22,6 @@ java -cp /path/to/openapi-generator-cli.jar:/path/to/ignition-codegen.jar org.op
     --input-spec /path/to/openapi.yaml \
     --output ./test
 ```
-(Do not forget to replace the values `/path/to/openapi-generator-cli.jar`, `/path/to/your.jar` and `/path/to/openapi.yaml` in the previous command)
 
 For Windows (PowerShell) users, you will need to use `;` instead of `:` in the classpath, e.g.
 ```
@@ -57,8 +30,10 @@ java -cp /path/to/openapi-generator-cli.jar;/path/to/ignition-codegen.jar org.op
     --input-spec /path/to/openapi.yaml `
     --output ./test
 ```
+Note that the `--input-spec` parameter can be a YAML file as shown, a JSON file or a URL pointing to an OpenAPI specification. See the [usage documentation](https://openapi-generator.tech/docs/usage).
 
-Running the above command will produce two zip files in the output directory:
+## Using the generated client
+Generating a client with the above commands will produce two zip files in the output directory:
 ```
 .
 |- docs.zip     // Generated Markdown documentation
@@ -83,8 +58,37 @@ The generated code can be customized without modifying this project by supplying
 2. Modify the templates
 3. Run `IgnitionCodegen` and supply the `--template-dir` param with the path to the modified templates
 
+# Build the project
+Clone the repo or download the source and run the Maven package command in the root of the project.
+```
+mvn package
+```
+
+Two jar files will be produced in `/target`.
+- `ignition-codegen-openapi-generator-x.x.x.jar`
+  * This contains only the classes defined in the project.
+- `ignition-codegen-openapi-generator-x.x.x-jar-with-dependencies.jar`
+  * This contains all dependencies. This is most likely the one you want.
+
+You can now use `ignition-codegen` with [OpenAPI Generator](https://openapi-generator.tech). Be sure to [download the jar](https://github.com/OpenAPITools/openapi-generator#13---download-jar).
 
 ## How does it work?
+### Project structure
+
+```
+.
+|- README.md    // this file
+|- pom.xml      // build script
+|-- src
+|--- main
+|---- java
+|----- com.corsosystems.codegen.IgnitionCodegen.java // generator implementation
+|---- resources
+|----- ignition-codegen // template files
+|----- META-INF
+|------ services
+|------- org.openapitools.codegen.CodegenConfig
+```
 `IgnitionCodegen.java` extends the existing `PythonLegacyClientCodegen` generator, which handles most of the work by implementing `CodegenConfig`.
 That class has the signature of all values that can be overridden.
 
