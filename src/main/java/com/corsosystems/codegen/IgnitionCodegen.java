@@ -1,6 +1,7 @@
 package com.corsosystems.codegen;
 
 import org.apache.commons.io.FilenameUtils;
+import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.AbstractPythonCodegen;
@@ -25,10 +26,27 @@ public class IgnitionCodegen extends PythonLegacyClientCodegen {
   private final Logger LOGGER = LoggerFactory.getLogger(AbstractPythonCodegen.class);
   private static final String NAME = "ignition-codegen";
 
+  protected String resourceScope = "A";
+  protected boolean resourceRestricted = false;
+  protected boolean resourceOverridable = false;
+  protected int resourceHintScope = 7;
+  protected String resourceLastModificationActor = "external";
+
   public IgnitionCodegen() {
     super();
 
     embeddedTemplateDir = templateDir = NAME;
+
+    cliOptions.add(new CliOption(IgnitionCodegenConstants.RESOURCE_SCOPE, "Identifies where the resource is used. G: Gateway, C: Client, A: All.")
+            .defaultValue(resourceScope));
+    cliOptions.add(new CliOption(IgnitionCodegenConstants.RESOURCE_RESTRICTED, "If true, only users assigned proper role requirements will have access.")
+            .defaultValue(String.valueOf(resourceRestricted)));
+    cliOptions.add(new CliOption(IgnitionCodegenConstants.RESOURCE_OVERRIDABLE, "If true, the ability to override the inherited resource is enabled. This object does not apply in child projects.")
+            .defaultValue(String.valueOf(resourceOverridable)));
+    cliOptions.add(new CliOption(IgnitionCodegenConstants.RESOURCE_HINT_SCOPE, "The scope(s) made available to autocompletion hints. 0: None, 1: Gateway, 2: Designer, 7: All.")
+            .defaultValue(String.valueOf(resourceHintScope)));
+    cliOptions.add(new CliOption(IgnitionCodegenConstants.RESOURCE_LAST_MODIFICATION_ACTOR, "The username to attribute to the resource edits.")
+            .defaultValue(resourceLastModificationActor));
   }
 
   @Override
@@ -77,9 +95,23 @@ public class IgnitionCodegen extends PythonLegacyClientCodegen {
     additionalProperties.put("apiDocPath", apiDocPath);
     additionalProperties.put("modelDocPath", modelDocPath);
 
-    additionalProperties.put("actor", NAME);
-    additionalProperties.put("timestamp", "2023-01-07T02:03:27Z");
-    additionalProperties.put("hintScope", 2);
+    if (!additionalProperties.containsKey(IgnitionCodegenConstants.RESOURCE_SCOPE)) {
+      additionalProperties.put(IgnitionCodegenConstants.RESOURCE_SCOPE, resourceScope);
+    }
+    if (!additionalProperties.containsKey(IgnitionCodegenConstants.RESOURCE_RESTRICTED)) {
+      additionalProperties.put(IgnitionCodegenConstants.RESOURCE_RESTRICTED, resourceRestricted);
+    }
+    if (!additionalProperties.containsKey(IgnitionCodegenConstants.RESOURCE_OVERRIDABLE)) {
+      additionalProperties.put(IgnitionCodegenConstants.RESOURCE_OVERRIDABLE, resourceOverridable);
+    }
+    if (!additionalProperties.containsKey(IgnitionCodegenConstants.RESOURCE_HINT_SCOPE)) {
+      additionalProperties.put(IgnitionCodegenConstants.RESOURCE_HINT_SCOPE, resourceHintScope);
+    }
+    if (additionalProperties.containsKey(IgnitionCodegenConstants.RESOURCE_LAST_MODIFICATION_ACTOR)) {
+      setResourceLastModificationActor(additionalProperties.get(IgnitionCodegenConstants.RESOURCE_LAST_MODIFICATION_ACTOR).toString());
+    }
+    //additionalProperties.put("timestamp", "2023-01-07T02:03:27Z");
+    //additionalProperties.put("hintScope", 2);
 
     if (additionalProperties.containsKey(PACKAGE_URL)) {
       setPackageUrl((String) additionalProperties.get(PACKAGE_URL));
@@ -138,8 +170,9 @@ public class IgnitionCodegen extends PythonLegacyClientCodegen {
 
     Set<String> resourcePaths = convertToResources(clientFolder, new HashSet<>());
     resourcePaths.forEach(res -> {
+      System.out.println(res);
       Path pathToSign = Paths.get(res);
-      String signedResource = resourceSigner.signResource(pathToSign, NAME, Instant.now().truncatedTo( ChronoUnit.SECONDS ));
+      String signedResource = resourceSigner.signResource(pathToSign, resourceLastModificationActor, Instant.now().truncatedTo( ChronoUnit.SECONDS ));
       Path resourceJsonPath = Paths.get(res + File.separatorChar + "resource.json");
       try {
         Files.write(resourceJsonPath, signedResource.getBytes(StandardCharsets.UTF_8));
@@ -179,6 +212,10 @@ public class IgnitionCodegen extends PythonLegacyClientCodegen {
     deleteDirectory(outputFolder() + File.separatorChar + "ignition");
 
     super.postProcess();
+  }
+
+  public void setResourceLastModificationActor(String resourceLastModificationActor) {
+    this.resourceLastModificationActor = resourceLastModificationActor;
   }
 
   private static Set<String> convertToResources(String path, Set<String> resourcePaths) {
