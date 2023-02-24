@@ -28,6 +28,8 @@ public class IgnitionCodegenTest {
     // https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-cli/src/main/java/org/openapitools/codegen/cmd/Generate.java
     Map<String, Object> additionalProperties = new HashMap<>();
     additionalProperties.put(IgnitionCodegenConstants.RESOURCE_LAST_MODIFICATION_ACTOR, "ignition-codegen-test");
+    additionalProperties.put(IgnitionCodegenConstants.PROJECT_PARENT, "ParentProject");
+    additionalProperties.put(IgnitionCodegenConstants.PROJECT_HAS_PARENT, true); // not a CLI Option but is set by code if PROJECT_PARENT is present
 
     final CodegenConfigurator configurator = new CodegenConfigurator()
             .setGeneratorName("ignition-codegen") // use this codegen library
