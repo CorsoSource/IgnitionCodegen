@@ -32,7 +32,7 @@ java -cp /path/to/openapi-generator-cli.jar;/path/to/ignition-codegen.jar org.op
 ```
 Note that the `--input-spec` parameter can be a YAML file as shown, a JSON file or a URL pointing to an OpenAPI specification. See the [usage documentation](https://openapi-generator.tech/docs/usage).
 
-## Using the generated client
+### Output
 Generating a client with the above commands will produce two zip files in the output directory:
 ```
 .
@@ -51,6 +51,16 @@ Generating a client with the above commands will produce two zip files in the ou
 |----- exceptions    // ...
 |----- rest          // ...
 ```
+
+## Using the generated client
+### Prerequisites
+The following Python packages need to be added to Ignition's `{installDirectory}\user-lib\pylib` directory. They can be
+downloaded from [jython-2.5-backports repository](https://github.com/CorsoSource/jython-2.5-backports)
+- six
+- urllib3
+- dateutil
+
+Refer to the documentation in the generated docs.zip file to see how instantiate the client and make a request. 
 
 ## Customization
 The generated code can be customized without modifying this project by supplying custom templates at runtime.
