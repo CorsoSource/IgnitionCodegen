@@ -26,6 +26,11 @@ public class IgnitionCodegenTest {
   public void launchCodeGenerator() {
     // to understand how the 'openapi-generator-cli' module is using 'CodegenConfigurator', have a look at the 'Generate' class:
     // https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator-cli/src/main/java/org/openapitools/codegen/cmd/Generate.java
+
+    Map<String, String> globalProperties = new HashMap<>();
+    //globalProperties.put("debugModels", "true");
+    //globalProperties.put("debugOperations", "true");
+
     Map<String, Object> additionalProperties = new HashMap<>();
     additionalProperties.put(IgnitionCodegenConstants.RESOURCE_LAST_MODIFICATION_ACTOR, "ignition-codegen-test");
     additionalProperties.put(IgnitionCodegenConstants.PROJECT_PARENT, "ParentProject");
@@ -33,8 +38,10 @@ public class IgnitionCodegenTest {
 
     final CodegenConfigurator configurator = new CodegenConfigurator()
             .setGeneratorName("ignition-codegen") // use this codegen library
-            .setInputSpec("https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml") // or from the server
+            //.setInputSpec("https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml") // or from the server
+            .setInputSpec("https://developer.opto22.com/static/generated/manage-rest-api/manage-api-public.yaml")
             .setOutputDir("out/ignition-codegen") // output directory
+            .setGlobalProperties(globalProperties)
             .setAdditionalProperties(additionalProperties);
 
     final ClientOptInput clientOptInput = configurator.toClientOptInput();

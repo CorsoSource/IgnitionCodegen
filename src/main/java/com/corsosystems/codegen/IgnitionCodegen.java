@@ -1,8 +1,10 @@
 package com.corsosystems.codegen;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.languages.AbstractPythonCodegen;
 import org.openapitools.codegen.languages.PythonLegacyClientCodegen;
@@ -201,6 +203,38 @@ public class IgnitionCodegen extends PythonLegacyClientCodegen {
   }
 
   @Override
+  public void setParameterExampleValue(CodegenParameter p) {
+    super.setParameterExampleValue(p);
+
+    if (p.isModel) {
+      // type is a model class, e.g. User
+      // overwrite the impl from super to fix package pathing for Ignition
+      p.example = modelPackage + "." + toModelFilename(p.baseType) + "." + p.baseType + "()";
+    }
+  }
+
+  // This is the same impl as super but replaces " with ' instead of \"
+  @Override
+  @SuppressWarnings("static-method")
+  public String escapeText(String input) {
+    if (input == null) {
+      return input;
+    }
+
+    // remove \t, \n, \r
+    // replace \ with \\
+    // replace " with '
+    // outer unescape to retain the original multi-byte characters
+    // finally escalate characters avoiding code injection
+    return escapeUnsafeCharacters(
+            StringEscapeUtils.unescapeJava(
+                            StringEscapeUtils.escapeJava(input)
+                                    .replace("\\/", "/"))
+                    .replaceAll("[\\t\\n\\r]", " ")
+                    .replace("\\", "\\\\")
+                    .replace("\"", "'"));
+  }
+  @Override
   public void postProcess() {
     ResourceSigner resourceSigner = new ResourceSigner();
 
@@ -208,7 +242,7 @@ public class IgnitionCodegen extends PythonLegacyClientCodegen {
 
     Set<String> resourcePaths = convertToResources(clientFolder, new HashSet<>());
     resourcePaths.forEach(res -> {
-      System.out.println(res);
+      //System.out.println(res);
       Path pathToSign = Paths.get(res);
       String signedResource = resourceSigner.signResource(pathToSign, resourceLastModificationActor, Instant.now().truncatedTo( ChronoUnit.SECONDS ));
       Path resourceJsonPath = Paths.get(res + File.separatorChar + "resource.json");

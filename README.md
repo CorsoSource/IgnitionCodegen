@@ -20,6 +20,7 @@ For mac/linux:
 java -cp /path/to/openapi-generator-cli.jar:/path/to/ignition-codegen.jar org.openapitools.codegen.OpenAPIGenerator generate \
     --generator-name ignition-codegen \
     --input-spec /path/to/openapi.yaml \
+    --generate-alias-as-model \
     --output ./test
 ```
 
@@ -28,9 +29,11 @@ For Windows (PowerShell) users, you will need to use `;` instead of `:` in the c
 java -cp /path/to/openapi-generator-cli.jar;/path/to/ignition-codegen.jar org.openapitools.codegen.OpenAPIGenerator generate ` 
     --generator-name ignition-codegen `
     --input-spec /path/to/openapi.yaml `
+    --generate-alias-as-model `
     --output ./test
 ```
 Note that the `--input-spec` parameter can be a YAML file as shown, a JSON file or a URL pointing to an OpenAPI specification. See the [usage documentation](https://openapi-generator.tech/docs/usage).
+The `--generate-alias-as-model` flag is only required if the target API makes use of inline schema definitions.
 
 ### Output
 Generating a client with the above commands will produce two zip files in the output directory:
