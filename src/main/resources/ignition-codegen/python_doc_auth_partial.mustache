@@ -1,6 +1,6 @@
 # Defining the host is optional and defaults to {{{basePath}}}
 # See configuration.py for a list of all supported configuration parameters.
-configuration = {{{packageName}}}.Configuration(
+configuration = Configuration(
     host = '{{{basePath}}}'
 )
 
@@ -14,7 +14,7 @@ configuration = {{{packageName}}}.Configuration(
 {{#isBasicBasic}}
 
 # Configure HTTP basic authorization: {{{name}}}
-configuration = {{{packageName}}}.Configuration(
+configuration = Configuration(
     username = 'YOUR_USERNAME',
     password = 'YOUR_PASSWORD'
 )
@@ -22,7 +22,7 @@ configuration = {{{packageName}}}.Configuration(
 {{#isBasicBearer}}
 
 # Configure Bearer authorization{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}: {{{name}}}
-configuration = {{{packageName}}}.Configuration(
+configuration = Configuration(
     access_token = 'YOUR_BEARER_TOKEN'
 )
 {{/isBasicBearer}}
@@ -64,7 +64,7 @@ configuration = {{{packageName}}}.Configuration(
 # the API server.
 #
 # See {{{packageName}}}.signing for a list of all supported parameters.
-configuration = {{{packageName}}}.Configuration(
+configuration = Configuration(
     host = '{{{basePath}}}',
     signing_info = {{{packageName}}}.signing.HttpSigningConfiguration(
         key_id = 'my-key-id',
@@ -100,7 +100,7 @@ configuration.api_key['{{{name}}}'] = 'YOUR_API_KEY'
 {{#isOAuth}}
 
 # Configure OAuth2 access token for authorization: {{{name}}}
-configuration = {{{packageName}}}.Configuration(
+configuration = Configuration(
     host = '{{{basePath}}}'
 )
 configuration.access_token = 'YOUR_ACCESS_TOKEN'
