@@ -176,8 +176,8 @@ public class IgnitionCodegen extends PythonLegacyClientCodegen {
     supportingFiles.add(new SupportingFile("configuration_resource.mustache", packagePath(), "configuration.json"));
     supportingFiles.add(new SupportingFile("exceptions.mustache", packagePath(), "exceptions.py"));
     supportingFiles.add(new SupportingFile("exceptions_resource.mustache", packagePath(), "exceptions.json"));
-    supportingFiles.add(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
-    supportingFiles.add(new SupportingFile("rest_resource.mustache", packagePath(), "rest.json"));
+    //supportingFiles.add(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
+    //supportingFiles.add(new SupportingFile("rest_resource.mustache", packagePath(), "rest.json"));
     supportingFiles.add(new SupportingFile("deserializer.mustache", packagePath(), "deserializer.py"));
     supportingFiles.add(new SupportingFile("deserializer_resource.mustache", packagePath(), "deserializer.json"));
 

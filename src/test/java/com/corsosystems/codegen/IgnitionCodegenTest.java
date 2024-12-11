@@ -38,7 +38,8 @@ public class IgnitionCodegenTest {
 
     final CodegenConfigurator configurator = new CodegenConfigurator()
             .setGeneratorName("ignition-codegen") // use this codegen library
-            .setInputSpec("https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml") // or from the server
+            .setInputSpec("https://dev.corsosystems.com/openapi/v1.json")
+            //.setInputSpec("https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml") // or from the server
             //.setInputSpec("https://developer.opto22.com/static/generated/manage-rest-api/manage-api-public.yaml")
             .setOutputDir("out/ignition-codegen") // output directory
             .setGlobalProperties(globalProperties)
