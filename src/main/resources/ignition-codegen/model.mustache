@@ -1,15 +1,10 @@
 {{>partial_header}}
 
-try:
-    from inspect import getfullargspec
-except ImportError:
-    from inspect import getargspec as getfullargspec
+from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
-import six
 
 from {{packageName}}.configuration import Configuration
-
 
 {{#models}}
 {{#model}}
@@ -212,7 +207,7 @@ class {{classname}}(object):
             else:
                 return x
 
-        for attr, _ in six.iteritems(self.openapi_types):
+        for attr, _ in self.openapi_types.items():
             value = getattr(self, attr)
             attr = self.attribute_map.get(attr, attr) if serialize else attr
             if isinstance(value, list):

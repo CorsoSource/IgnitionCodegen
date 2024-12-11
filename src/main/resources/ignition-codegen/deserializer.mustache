@@ -188,7 +188,7 @@ class Deserializer(object):
 		instance = klass(**kwargs)
 
 		if (isinstance(instance, dict) and
-				klass.swagger_types is not None and
+				klass.openapi_types is not None and
 				isinstance(data, dict)):
 			for key, value in data.items():
 				if key not in klass.openapi_types:
