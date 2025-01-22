@@ -2,17 +2,18 @@
 
 import json
 import re
+import datetime
 from java.text import ParseException
 from java.util import Date
-from {{packageName}}.api_exception import ApiException
+from {{packageName}}.exceptions import ApiException
 
 class Deserializer(object):
-	def __init__(self, date_format_string="yyyy-MM-dd", datetime_format_string="yyyy-MM-dd HH:mm:ss"):
-		self.date_format_string = date_format_string
-		self.datetime_format_string = datetime_format_string
+    def __init__(self, date_format_string="yyyy-MM-dd", datetime_format_string="yyyy-MM-dd HH:mm:ss"):
+        self.date_format_string = date_format_string
+        self.datetime_format_string = datetime_format_string
 
     PRIMITIVE_TYPES = (float, bool, bytes, str, long, int)
-	NATIVE_TYPES_MAPPING = {
+    NATIVE_TYPES_MAPPING = {
         'int': int,
         'long': long,  # noqa: F821
         'float': float,
@@ -26,7 +27,7 @@ class Deserializer(object):
     def deserialize(self, response, response_type):
         """Deserializes response into an object.
 
-        :param response: HttpResponseImpl object to be deserialized.
+        :param response: com.inductiveautomation.ignition.common.script.builtin.http.Response object to be deserialized.
         :param response_type: class literal for
         deserialized object, or string of class name.
 
@@ -34,14 +35,14 @@ class Deserializer(object):
         """
         # handle file downloading
         # save response body into a tmp file and return the instance
-        if response_type == "file":
-            return self.__deserialize_file(response)
+        # 		if response_type == "file":
+        # 			return self.__deserialize_file(response)
+
         # fetch data from response object
         try:
-            data = json.loads(response.body())
+            data = response.getJson()
         except ValueError:
-            data = response.body()
-
+            data = response.getBody()
         return self.__deserialize(data, response_type)
 
     def __deserialize(self, data, klass):
@@ -133,71 +134,71 @@ class Deserializer(object):
         """
         return value
 
-	def __deserialize_date(self, string):
-		"""Deserializes string to date.
+    def __deserialize_date(self, string):
+        """Deserializes string to date.
 
-		:param string: str.
-		:return: date.
-		"""
-		try:
-			return system.date.parse(string, self.date_format_string)
-		except ParseException as e:
-			raise ApiException(
-				"Failed to parse `{0}` as datetime object"
-				.format(string),
-				throwable=e
-			)
+        :param string: str.
+        :return: date.
+        """
+        try:
+            return system.date.parse(string, self.date_format_string)
+        except ParseException as e:
+            raise ApiException(
+                "Failed to parse `{0}` as datetime object"
+                .format(string),
+                throwable=e
+            )
 
-	def __deserialize_datetime(self, string):
-		"""Deserializes string to datetime.
+    def __deserialize_datetime(self, string):
+        """Deserializes string to datetime.
 
-		The string should be in iso8601 datetime format.
+        The string should be in iso8601 datetime format.
 
-		:param string: str.
-		:return: datetime.
-		"""
-		try:
-			return system.date.parse(string, self.datetime_format_string)
-		except ParseException as e:
-			raise ApiException(
-				"Failed to parse `{0}` as datetime object"
-				.format(string),
-				throwable=e
-			)
+        :param string: str.
+        :return: datetime.
+        """
+        try:
+            return system.date.parse(string, self.datetime_format_string)
+        except ParseException as e:
+            raise ApiException(
+                "Failed to parse `{0}` as datetime object"
+                .format(string),
+                throwable=e
+            )
 
-	def __deserialize_model(self, data, klass):
-		"""Deserializes list or dict to model.
+    def __deserialize_model(self, data, klass):
+        """Deserializes list or dict to model.
 
-		:param data: dict, list.
-		:param klass: class literal.
-		:return: model object.
-		"""
+        :param data: dict, list.
+        :param klass: class literal.
+        :return: model object.
+        """
 
-		if not klass.openapi_types and not self.__hasattr(klass, 'get_real_child_model'):
-			return data
+        if not klass.openapi_types and not self.__hasattr(klass, 'get_real_child_model'):
+            return data
 
-		kwargs = {}
-		if klass.openapi_types is not None:
-			for attr, attr_type in klass.openapi_types.items():
-				if (data is not None and
-						klass.attribute_map[attr] in data and
-						isinstance(data, (list, dict))):
-					value = data[klass.attribute_map[attr]]
-					kwargs[attr] = self.__deserialize(value, attr_type)
+        kwargs = {}
+        if klass.openapi_types is not None:
+            for attr, attr_type in klass.openapi_types.items():
+                if (data is not None and
+                        klass.attribute_map[attr] in data and
+                        isinstance(data, (list, dict))):
+                    value = data[klass.attribute_map[attr]]
+                    kwargs[attr] = self.__deserialize(value, attr_type)
 
-		instance = klass(**kwargs)
+        instance = klass(**kwargs)
 
-		if (isinstance(instance, dict) and
-				klass.openapi_types is not None and
-				isinstance(data, dict)):
-			for key, value in data.items():
-				if key not in klass.openapi_types:
-					instance[key] = value
-		if self.__hasattr(instance, 'get_real_child_model'):
-			klass_name = instance.get_real_child_model(data)
-			if klass_name:
-				instance = self.__deserialize(data, klass_name)
-		return instance
+        if (isinstance(instance, dict) and
+                klass.openapi_types is not None and
+                isinstance(data, dict)):
+            for key, value in data.items():
+                if key not in klass.openapi_types:
+                    instance[key] = value
+        if self.__hasattr(instance, 'get_real_child_model'):
+            klass_name = instance.get_real_child_model(data)
+            if klass_name:
+                instance = self.__deserialize(data, klass_name)
+        return instance
 
-	def __hasattr(self, object, name):
-		return name in object.__class__.__dict__
+    def __hasattr(self, object, name):
+        return name in object.__class__.__dict__

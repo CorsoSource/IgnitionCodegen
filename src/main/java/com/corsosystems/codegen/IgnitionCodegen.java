@@ -1,5 +1,7 @@
 package com.corsosystems.codegen;
 
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.CliOption;
