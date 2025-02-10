@@ -38,8 +38,8 @@ public class IgnitionCodegenTest {
 
     final CodegenConfigurator configurator = new CodegenConfigurator()
             .setGeneratorName("ignition-codegen") // use this codegen library
-            .setPackageName("tendedbar")
-            .setInputSpec("C:/Users/willi/downloads/swagger.json")
+            .setPackageName("test")
+            .setInputSpec("https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml") // or from the server
             .setOutputDir("out/ignition-codegen") // output directory
             .setGlobalProperties(globalProperties)
             .setAdditionalProperties(additionalProperties);
