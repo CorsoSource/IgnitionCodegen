@@ -38,8 +38,8 @@ public class IgnitionCodegenTest {
 
     final CodegenConfigurator configurator = new CodegenConfigurator()
             .setGeneratorName("ignition-codegen") // use this codegen library
-            .setPackageName("opto")
-            .setInputSpec("https://developer.opto22.com/static/generated/manage-rest-api/manage-api-public.yaml")
+            .setPackageName("tendedbar")
+            .setInputSpec("C:/Users/willi/downloads/swagger.json")
             .setOutputDir("out/ignition-codegen") // output directory
             .setGlobalProperties(globalProperties)
             .setAdditionalProperties(additionalProperties);

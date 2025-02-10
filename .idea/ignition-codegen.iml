@@ -3,10 +3,10 @@
   <component name="AutoImportedSourceRoots">
     <option name="directories">
       <list>
-        <option value="C:\Projects\OpenAPI\generators\ignition-codegen/src/main/java" />
-        <option value="C:\Projects\OpenAPI\generators\ignition-codegen/src/main/kotlin" />
-        <option value="C:\Projects\OpenAPI\generators\ignition-codegen/src/test/java" />
         <option value="C:\Projects\OpenAPI\generators\ignition-codegen/src/test/kotlin" />
+        <option value="C:\Projects\OpenAPI\generators\ignition-codegen/src/test/java" />
+        <option value="C:\Projects\OpenAPI\generators\ignition-codegen/src/main/kotlin" />
+        <option value="C:\Projects\OpenAPI\generators\ignition-codegen/src/main/java" />
       </list>
     </option>
   </component>

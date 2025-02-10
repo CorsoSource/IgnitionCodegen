@@ -1,13 +1,8 @@
 package com.corsosystems.codegen;
 
-import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.text.StringEscapeUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.AbstractPythonCodegen;
 import org.openapitools.codegen.languages.PythonLegacyClientCodegen;
 import org.slf4j.Logger;
@@ -77,6 +72,11 @@ public class IgnitionCodegen extends PythonLegacyClientCodegen {
   @Override
   public String getName() {
     return NAME;
+  }
+
+  @Override
+  public CodegenType getTag() {
+    return CodegenType.CLIENT;
   }
 
   @Override
