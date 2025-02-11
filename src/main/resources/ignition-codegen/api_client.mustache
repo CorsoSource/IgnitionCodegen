@@ -30,8 +30,8 @@ class ApiClient:
 		self.responseInterceptor = None
 		self.asyncResponseInterceptor = None
 
-  	def getDefaultBaseUri(self):
-        return "{{{basePath}}}"
+	def getDefaultBaseUri(self):
+		return "{{{basePath}}}"
 
 	def updateBaseUri(self, baseUri):
 		uri = URI.create(baseUri)
