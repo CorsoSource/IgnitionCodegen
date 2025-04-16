@@ -43,3 +43,5 @@ hs_err_pid*
 replay_pid*
 
 .idea/workspace.xml
+ignition-codegen-openapi-generator.iml
+.idea/codeStyles/codeStyleConfig.xml
