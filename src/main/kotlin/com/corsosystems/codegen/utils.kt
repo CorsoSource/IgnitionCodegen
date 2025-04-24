@@ -36,7 +36,7 @@ class ResourceSigner {
         val signedManifest = JSON.encodeToString(ResourceManifest.serializer(), updated.manifest)
         println(signedManifest)
 
-        return signedManifest;
+        return signedManifest
     }
 
     private fun getResource(location: Path): ProjectResource {
