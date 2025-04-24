@@ -4,8 +4,6 @@ from inspect import getargspec as getfullargspec
 import pprint
 import re  # noqa: F401
 
-from {{packageName}}.configuration import Configuration
-
 {{#models}}
 {{#model}}
 class {{classname}}(object):
