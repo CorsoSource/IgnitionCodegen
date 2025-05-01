@@ -1,1 +1,23 @@
 {{>partial_header}}
+
+client = system.net.httpClient()
+
+{{#operations}}
+
+{{#operation}}
+def {{operationId}}({{#sortParamsByRequiredFlag}}{{#allParams}}{{#required}}{{paramName}}, {{/required}}{{/allParams}}{{/sortParamsByRequiredFlag}}):
+    """{{{summary}}}{{^summary}}{{operationId}}{{/summary}}
+{{#notes}}
+        {{{.}}}
+{{/notes}}
+
+{{#allParams}}
+        :param {{paramName}}:{{#description}} {{{.}}}{{/description}}{{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}
+        :type {{paramName}}: {{dataType}}{{#optional}}, optional{{/optional}}
+{{/allParams}}
+        """
+    path = '{{{path}}}'
+    pass
+{{/operation}}
+
+{{/operations}}

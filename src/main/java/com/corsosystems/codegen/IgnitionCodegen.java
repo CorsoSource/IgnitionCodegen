@@ -39,9 +39,8 @@ public class IgnitionCodegen extends DefaultCodegen implements CodegenConfig {
     protected boolean resourceOverridable = false;
     protected int resourceHintScope = 7;
     protected String resourceLastModificationActor = "external";
-    protected String packageName;
+    protected String packageName = "openapi";
     protected String projectName;
-    protected String packagePath = "OpenAPI";
     protected String apiDocPath = "/docs/api";
     protected String modelDocPath = "/docs/model";
     public IgnitionCodegen() {
@@ -105,7 +104,7 @@ public class IgnitionCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public String packagePath() {
-        return "ignition" + File.separatorChar + "script-python" + File.separatorChar + packagePath;
+        return "ignition" + File.separatorChar + "script-python" + File.separatorChar + packageName;
     }
 
     @Override
@@ -219,7 +218,7 @@ public class IgnitionCodegen extends DefaultCodegen implements CodegenConfig {
         modelTemplateFiles.put("model_resource.mustache", ".json");
 
         apiTemplateFiles.put("api_resource.mustache", ".json");
-        apiTemplateFiles.put("api.mustache", ".py");
+        apiTemplateFiles.put("api_simple.mustache", ".py");
 
         // If the package name consists of dots(openapi.client), then we need to create the directory structure like openapi/client with __init__ files.
         String[] packageNameSplits = packageName.split("\\.");
